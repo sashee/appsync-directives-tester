@@ -1,0 +1,21 @@
+%{for q_type in alldirectives}
+	%{for t_type in alldirectives}
+		type Q_${q_type[0]}_t_${t_type[0]} ${join(" ", t_type[1])} {
+			%{for field in alldirectives}
+				f_${field[0]}:String! ${join(" ", field[1])}
+			%{endfor}
+		}
+	%{endfor}
+%{endfor}
+
+type Query {
+	%{for q_type in alldirectives}
+		%{for t_type in alldirectives}
+			q_${q_type[0]}_t_${t_type[0]}: Q_${q_type[0]}_t_${t_type[0]}! ${join(" ", q_type[1])}
+		%{endfor}
+	%{endfor}
+}
+
+schema {
+	query: Query
+}
